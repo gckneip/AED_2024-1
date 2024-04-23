@@ -5,8 +5,8 @@ O repositório contém duas pastas principais, uma de aulas contendo atividades,
 ## Sumário
 ### Aulas
 - Aula04-19-2024
-  -  [Aula1](Aulas/Aula04-19-2024/Aula01)
+  -  [Aula1](Aulas/Aula04-19-2024/Aula01.c)
 ### Tarefas
 - Tarefa1
   - Codigo em aula
-  - [Codigo finalizado](Tarefas/Tarefa1/)
+  - [Codigo finalizado](Tarefas/Tarefa1/CodigoFinalizado/Tarefa1.c)
