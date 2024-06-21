@@ -53,3 +53,9 @@ dkms.conf
 
 # VS Code files
 .vscode/
+# Ignore all files in the Leetcode directory
+Leetcode/*
+
+# Do not ignore .c files in the Leetcode directory
+!Leetcode/*.c
+
