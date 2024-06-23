@@ -1,6 +1,5 @@
 # Trabalho Prático 1
 ## Gustavo Cunha Kneip - AED_2024-1 - 23/06/2024
-
 ## Problema:
 Criar um programa que simula o processo de venda de uma banca de limonada. Ele deve funcionar da seguinte forma:
  - O programa receberá um vetor de inteiros, representando o pagamento de cada cliente como um dos valores do vetor;
@@ -20,3 +19,5 @@ O código faz tudo o que foi pedido pelo problema, rodou tranquilamente em todos
 Como comentado anteriormente, o codigo faz o que foi pedido. Uma coisa interessante de se comentar é que se trocar a ordem dos `if's` das linhas **46** e **49** do arquivo 
 [`Tarefa2-Leetcode860-GustavoCunhaKneip-Finalizado.c`](./CodigoFinalizado/Tarefa2-Leetcode860-GustavoCunhaKneip-Finalizado.c) o programa não roda, pois gastamos mais notas de 5
 do que o esperado. Porém essa ainda seria uma solução válida, pois o dono da banca pode escolher das 3 notas de $5 como troco para $20. Acho que isso não foi pensado por quem desenvolveu o problema.
+## [Vídeo explicativo](https://youtu.be/eDySrfGXwfk)
+
