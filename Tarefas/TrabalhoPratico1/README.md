@@ -15,7 +15,7 @@ Foram realizados testes com os seguintes vetores (utlizando a IDE do Leetcode):
 - [5,5,10,10,20] - Esperado: false; Resultado: false;
 - [5,5,5,10,20,10,20] - Esperado: false; Resultado: false;
 ## O que funcionou:
-O código faz tudo o que foi pedido pelo problema, rodou tranquilamente em todos os testes do Leetcode, rodados depois de mandaar o programa usando o **SUBMIT**;
+O código faz tudo o que foi pedido pelo problema, rodou tranquilamente em todos os testes do Leetcode, rodados depois de mandar o programa usando o **SUBMIT**;
 ## O que não funcionou:
 Como comentado anteriormente, o codigo faz o que foi pedido. Uma coisa interessante de se comentar é que se trocar a ordem dos `if's` das linhas **46** e **49** do arquivo 
 [`Tarefa2-Leetcode860-GustavoCunhaKneip-Finalizado.c`](./TrabalhoPratico1/CodigoFinalizado/Tarefa2-Leetcode860-GustavoCunhaKneip-Finalizado.c) o programa não roda, pois gastamos mais notas de 5
