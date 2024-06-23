@@ -7,8 +7,8 @@ Criar um programa que simula o processo de venda de uma banca de limonada. Ele d
  - O cliente pode pagar em notas de $5, $10, $20;
  - O programa deve verificar se o dono da banca de limonada possui notas suficiente para dar o troco aos seus clientes;
 ## Soluções
-- [Solução realizada em aula](./TrabalhoPratico1/CodigoEmAula/Tarefa2-Leetcode860-GustavoCunhaKneip.c);
-- [Solução finalizada em casa](./TrabalhoPratico1/CodigoFinalizado/Tarefa2-Leetcode860-GustavoCunhaKneip-Finalizado.c);
+- [Solução realizada em aula](./CodigoEmAula/Tarefa2-Leetcode860-GustavoCunhaKneip.c);
+- [Solução finalizada em casa](./CodigoFinalizado/Tarefa2-Leetcode860-GustavoCunhaKneip-Finalizado.c);
 ## Testes:
 Foram realizados testes com os seguintes vetores (utlizando a IDE do Leetcode):
 - [5,5,5,10,20] - Esperado: true; Resultado: true;
@@ -18,5 +18,5 @@ Foram realizados testes com os seguintes vetores (utlizando a IDE do Leetcode):
 O código faz tudo o que foi pedido pelo problema, rodou tranquilamente em todos os testes do Leetcode, rodados depois de mandar o programa usando o **SUBMIT**;
 ## O que não funcionou:
 Como comentado anteriormente, o codigo faz o que foi pedido. Uma coisa interessante de se comentar é que se trocar a ordem dos `if's` das linhas **46** e **49** do arquivo 
-[`Tarefa2-Leetcode860-GustavoCunhaKneip-Finalizado.c`](./TrabalhoPratico1/CodigoFinalizado/Tarefa2-Leetcode860-GustavoCunhaKneip-Finalizado.c) o programa não roda, pois gastamos mais notas de 5
+[`Tarefa2-Leetcode860-GustavoCunhaKneip-Finalizado.c`](./CodigoFinalizado/Tarefa2-Leetcode860-GustavoCunhaKneip-Finalizado.c) o programa não roda, pois gastamos mais notas de 5
 do que o esperado. Porém essa ainda seria uma solução válida, pois o dono da banca pode escolher das 3 notas de $5 como troco para $20. Acho que isso não foi pensado por quem desenvolveu o problema.
