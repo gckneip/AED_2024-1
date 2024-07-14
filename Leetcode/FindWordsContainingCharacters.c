@@ -1,8 +1,19 @@
-/**
- * Note: The returned array must be malloced, assume caller calls free().
- */
+#include <stdlib.h>
+#include <stdio.h>
+
+int* findWordsContaining(char** words, int wordsSize, char x, int* returnSize);
+
+int main(void){
+
+}
+
+
+
+
+
+
 int* findWordsContaining(char** words, int wordsSize, char x, int* returnSize) {
-    int* array = NULL, i = 0, j = 0, c =0;
+    int* array = '\0', i = 0, j = 0, c =0;
     *returnSize = 0;
 
     while( i < wordsSize ){
