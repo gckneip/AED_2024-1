@@ -18,5 +18,5 @@ Foram realizados testes com os seguintes vetores (utlizando a IDE do Leetcode):
 ## O que não funcionou:
 - **Durante a aula**: Durante a aula, apresentei dificuldade em perceber qual estrutura de dados usar. Comecei com uma lista pois achei que facilitaria na remoção da string, porém a complexidade do código me fez pensar que essa não era a solução. Então, tentei implementar uma loógica de pilhas, porém não lembrava exatamente como montar as funções, por isso elas ficaram com algums erros (aleḿ disso não desaloquei a memória da pilha nem da string dentro dela); Em questão de lógica, durante a aula tentei fazer algo que percorria a string enquanto adicionava os char a uma string, a idéia era usar o pop para excluir o caracter anterior ao perceber alguma das sequência AB ou BA; Porém durante a aula minha lógica olhava para os caracteres no momento para ver se era interessante remover AB ou BA, e não na string inteira, o que causou erros no meu resultado;
 - **Em casa**: consegui arrumar o que faltava em relação a lógica; Minha única duvida era na possivel criação de uma substring AB após remover BA ou vice-versa, porém uma das resposta do leetcode me explicou que isso não é possível;
-## [Vídeo explicativo]()
+## [Vídeo explicativo](https://youtu.be/2ivdoDXYhhU)
 
