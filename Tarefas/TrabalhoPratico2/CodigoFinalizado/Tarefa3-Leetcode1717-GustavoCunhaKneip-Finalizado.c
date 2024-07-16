@@ -13,7 +13,7 @@ bool Push( Stack_t *pilha, char letra );
 void Pop( Stack_t *pilha );
 void ComecaPilha( Stack_t *pilha );
 void FreePilha( Stack_t *pilha );
-int MaximumGain( char* s, int x, int y );int MaximumGain( char* s, int x, int y );
+int MaximumGain( char* s, int x, int y );
 
 /* 
 ==================== 
