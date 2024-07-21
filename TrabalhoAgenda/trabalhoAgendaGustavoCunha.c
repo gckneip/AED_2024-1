@@ -5,7 +5,7 @@
 void AdicionarPessoa(void **pFirst, void **pLast);
 void RemoverPessoa(void **pFirst, void **pLast);
 void BuscarPessoa();
-void ListarTodos(void **pFirst);
+void ListarTodos(void **pFirst, void **pLast);
 void Sair();
 
 
@@ -48,13 +48,13 @@ void main(int){
                 pBuffer = ( void *)realloc( pBuffer, TAM_INICIAL );
                 RemoverPessoa(pFirst,pLast);
             break;
-            case 3:
+            case 3:   
                 pBuffer = ( void *)realloc( pBuffer, TAM_INICIAL );
                 BuscarPessoa();
             break;
             case 4:
                 pBuffer = ( void *)realloc( pBuffer, TAM_INICIAL );
-                ListarTodos(pFirst);
+                ListarTodos(pFirst, pLast);
             break;
             case 5:
                 pBuffer = ( void *)realloc( pBuffer, TAM_INICIAL );
@@ -83,74 +83,46 @@ void MostraMenu(int *pEscolha){
         getchar();
 }
 
-void AdicionarPessoa(void **pFirst, void **pLast){
+void AdicionarPessoa(void **pFirst, void **pLast) {
+    // Alocando memoria para armazenar o nome temporáriamente;
+    pBuffer = (void *)realloc(pBuffer, TAM_INICIAL + TAM_STRING);
+    char *pNomeTemp = (char *)(pBuffer + TAM_INICIAL);
 
-    //Alocando memoria para armazenar o nome temporáriamente;
-    pBuffer = ( void *)realloc( pBuffer, TAM_INICIAL + TAM_STRING );
-    char *pNomeTemp = ( char* )( pBuffer + TAM_INICIAL );
-
-    //Lendo o nome
+    // Lendo o nome
     printf("\nDigite o nome: ");
-    fgets( pNomeTemp, 50, stdin );
+    fgets(pNomeTemp, 50, stdin);
+    pNomeTemp[strcspn(pNomeTemp, "\n")] = '\0';
 
-    //Removendo o \n
-    pBuffer = ( void *)realloc( pBuffer ,TAM_INICIAL + TAM_STRING + TAM_INTEIRO );
-    int *pTamNomeTemp = ( int *)(pBuffer + TAM_INICIAL + TAM_STRING );
-    *pTamNomeTemp = strlen( pNomeTemp );
+    // Alocando memoria para armazenar o email temporáriamente;
+    pBuffer = (void *)realloc(pBuffer, TAM_INICIAL + TAM_STRING + TAM_STRING);
+    char *pEmailTemp = (char *)(pBuffer + TAM_INICIAL + TAM_STRING);
 
-    if (pNomeTemp[*pTamNomeTemp - 1] == '\n') 
-    {
-        pNomeTemp[*pTamNomeTemp - 1] = '\0';    
-    }
-
-    pBuffer = ( void *)realloc( pBuffer ,TAM_INICIAL + TAM_STRING );
-
-    //Alocando memoria para armazenar o email temporáriamente;
-    pBuffer = ( void *)realloc( pBuffer ,TAM_INICIAL + TAM_STRING + TAM_STRING );
-    char *pEmailTemp = ( char* )( pBuffer + TAM_INICIAL + TAM_STRING);
-
-    //Lendo o email
+    // Lendo o email
     printf("\nDigite o email: ");
-    fgets( pEmailTemp, 50, stdin );
+    fgets(pEmailTemp, 50, stdin);
+    pEmailTemp[strcspn(pEmailTemp, "\n")] = '\0';
 
-    //Removendo o \n
-    pBuffer = ( void *)realloc( pBuffer ,TAM_INICIAL + TAM_STRING + TAM_STRING + TAM_INTEIRO );
-    int *pTamEmailTemp = ( int *)(pBuffer + TAM_INICIAL + TAM_STRING + TAM_STRING );
-    *pTamEmailTemp = strlen( pEmailTemp );
-
-    if (pEmailTemp[*pTamEmailTemp - 1] == '\n') 
-    {
-        pEmailTemp[*pTamEmailTemp - 1] = '\0';    
-    }
-
-    pBuffer = ( void *)realloc( pBuffer ,TAM_INICIAL + TAM_STRING + TAM_STRING );
-
-    pBuffer = ( void *)realloc( pBuffer ,TAM_INICIAL + TAM_STRING + TAM_STRING + TAM_INTEIRO );
-    int *pIdadeTemp = ( int *)(pBuffer + TAM_INICIAL + TAM_STRING + TAM_STRING );
+    // Alocando memoria para armazenar a idade temporariamente;
+    pBuffer = (void *)realloc(pBuffer, TAM_INICIAL + TAM_STRING + TAM_STRING + TAM_INTEIRO);
+    int *pIdadeTemp = (int *)(pBuffer + TAM_INICIAL + TAM_STRING + TAM_STRING);
 
     printf("\nDigite a idade: ");
-    scanf("%d",pIdadeTemp);
+    scanf("%d", pIdadeTemp);
+    getchar(); // Limpa o buffer
 
-    pBuffer = ( void *)realloc( pBuffer ,TAM_INICIAL + 
-                                         TAM_STRING + 
-                                         TAM_STRING + 
-                                         TAM_INTEIRO +
-                                         TAM_PONTEIRO +
-                                         TAM_PONTEIRO  +
-                                         TAM_PONTEIRO);
+    pBuffer = (void *)realloc(pBuffer, TAM_INICIAL + TAM_STRING + TAM_STRING + TAM_INTEIRO +
+                                        TAM_PONTEIRO + TAM_PONTEIRO + TAM_PONTEIRO);
 
-    void ** pNovoNodo = (void**)( pBuffer + TAM_INICIAL + TAM_STRING + TAM_STRING + TAM_INTEIRO);
-    void **pCurrent = ( void** )( pBuffer + TAM_INICIAL );
-    void **pPrev = ( void** )( pBuffer + TAM_INICIAL + TAM_PONTEIRO );
+    void **pCurrent = (void **)(pBuffer + TAM_INICIAL);
+    void **pPrev = (void **)(pBuffer + TAM_INICIAL + TAM_PONTEIRO);
 
-    pNovoNodo = CriaNodo(pNomeTemp,pEmailTemp,pIdadeTemp);
+    void *pNovoNodo = CriaNodo(pNomeTemp, pEmailTemp, pIdadeTemp);
     *pCurrent = NULL;
     *pPrev = NULL;
 
-    Push( pFirst, pLast, pNovoNodo, pCurrent, pPrev );
+    Push(pFirst, pLast, pNovoNodo, pCurrent, pPrev);
 
-
-    printf("Adicionando.....");
+    printf("Adicionando...\n");
 }
 
 void *CriaNodo(char *pNome, char *pEmail, int *pIdade){
@@ -202,35 +174,89 @@ void *Pop( void **pFirst, void **pLast, void **pTemp ) {
     }
 
     pTemp = pFirst;
-    *pFirst = *(void **)(*pTemp+ 2 * TAM_STRING + TAM_INTEIRO);
+    *pFirst = *(void **)(pTemp+ 2 * TAM_STRING + TAM_INTEIRO);
     if (*pFirst == NULL) {
         *pLast = NULL;
     }
     return *pTemp;
 }
 
-void RemoverPessoa(void **pFirst, void **pLast){
-    pBuffer = ( void *)realloc(pBuffer, TAM_INICIAL + TAM_PONTEIRO);
-    void **pTemp = (void**)(pBuffer + TAM_INICIAL);
-    pTemp = Pop(pFirst,pLast,pTemp);
 
-    free(pTemp);
+void RemoverPessoa(void **pFirst, void **pLast) {
+    pBuffer = (void *)realloc(pBuffer, TAM_INICIAL + 
+                                       TAM_STRING + 
+                                       5 * TAM_PONTEIRO);
+    char *pNomeTemp = (char *)(pBuffer + TAM_INICIAL);
 
-    printf("removendo.....");
+    printf("\nDigite o nome da pessoa a ser removida: ");
+    fgets(pNomeTemp, 50, stdin);
+    pNomeTemp[strcspn(pNomeTemp, "\n")] = 0;
+
+    void **pCurrent = (void **)(pBuffer + TAM_INICIAL + TAM_STRING);
+    void **pPrev = (void **)(pBuffer + TAM_INICIAL + TAM_STRING + TAM_PONTEIRO);
+    void **auxHeap = (void **)(pBuffer + TAM_INICIAL + TAM_STRING + 2 * TAM_PONTEIRO);
+    void **auxFirst = (void **)(pBuffer + TAM_INICIAL + TAM_STRING + 3 * TAM_PONTEIRO);
+    void **auxLast = (void **)(pBuffer + TAM_INICIAL + TAM_STRING + 4 * TAM_PONTEIRO);
+
+    *auxHeap = NULL;
+    *auxFirst = auxHeap;
+    *auxLast = auxHeap;
+
+    while (*pFirst != NULL) {
+        void *pTemp = Pop(pFirst, pLast,pTemp);
+        if (pTemp == NULL) {
+            break;
+        }
+        if (strcmp((char *)pTemp, pNomeTemp) != 0) {
+            Push(auxFirst, auxLast, pTemp, pCurrent, pPrev);
+        } else {
+            free(pTemp);
+        }
+    }
+
+    while (*auxFirst != NULL) {
+        void *pTemp = Pop(auxFirst, auxLast,pTemp);
+        Push(pFirst, pLast, pTemp, pCurrent, pPrev);
+    }
+
+    printf("Pessoa removida.\n");
 }
 
 void BuscarPessoa(){
     printf("BUscar.....");
 }
 
-void ListarTodos(void **pFirst) {
-    void *pCurrent = *pFirst;
-    while (pCurrent != NULL) {
-        printf("Nome: %s, Email: %s, Idade: %d\n", (char *)pCurrent, 
-               (char *)(pCurrent + TAM_STRING), *(int *)(pCurrent + 2 * TAM_STRING));
-        pCurrent = *(void **)(pCurrent + 2 * TAM_STRING + TAM_INTEIRO);
+void ListarTodos(void **pFirst, void **pLast) {
+    pBuffer = (void *)realloc(pBuffer, TAM_INICIAL + 6 * TAM_PONTEIRO);
+    
+    void **auxHeap = (void **)(pBuffer + TAM_INICIAL);
+    void **auxFirst = (void **)(pBuffer + TAM_INICIAL + TAM_PONTEIRO);
+    void **auxLast = (void **)(pBuffer + TAM_INICIAL + 2 * TAM_PONTEIRO);
+    void **pCurrent = (void **)(pBuffer + TAM_INICIAL + 3 * TAM_PONTEIRO);
+    void **pPrev = (void **)(pBuffer + TAM_INICIAL + 4 * TAM_PONTEIRO);
+    void **pTemp = (void **)(pBuffer + TAM_INICIAL + 5 * TAM_PONTEIRO);
+
+    
+    *auxHeap = NULL;
+    *auxFirst = auxHeap;
+    *auxLast = auxHeap;
+
+    while (*pFirst != NULL) {
+        *pTemp = Pop(pFirst, pLast,pTemp);
+        if (pTemp == NULL) {
+            break;
+        }
+        printf("Nome: %s, Email: %s, Idade: %d\n", (char *)pTemp, 
+               (char *)(pTemp + TAM_STRING), *(int *)(pTemp + 2 * TAM_STRING));
+        Push(auxFirst, auxLast, pTemp, pCurrent, pPrev);
+    }
+
+    while (*auxFirst != NULL) {
+        *pTemp = Pop(auxFirst, auxLast,pTemp);
+        Push(pFirst, pLast, pTemp, pCurrent, pPrev);
     }
 }
+
 
 void Sair(){
     free(pBuffer);
