@@ -1,5 +1,5 @@
 # Trabalho Agenda pBuffer
-## Gustavo Cunha Kneip - AED_2024-1 - 23/06/2024
+## Gustavo Cunha Kneip - AED_2024-1 - 21/07/2024
 ## Problema:
 Faça uma agenda com o seguinte menu:
 1. Adicionar Pessoa (Nome, Idade, email)
