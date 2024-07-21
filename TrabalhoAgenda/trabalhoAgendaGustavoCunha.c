@@ -33,7 +33,11 @@ void *pBuffer = NULL;
 void main(int){
 
     //Criando First e Last para manter track da fila
-    pBuffer = ( void *)calloc( 1, TAM_INICIAL ) ;
+    if( ( pBuffer = ( void *)calloc( 1, TAM_INICIAL ) ) == NULL ) {
+        printf("Erro ao alocar memória\n");
+        exit(EXIT_FAILURE);
+    }
+
     void **pFirst = ( void ** )( pBuffer );
     void **pLast = ( void ** )( pBuffer + TAM_PONTEIRO );
     *pFirst = NULL;
@@ -42,7 +46,10 @@ void main(int){
     while ( 1 ){
         
         //Criando o escolha para pegar o input do usuário:
-        pBuffer = ( void *)realloc( pBuffer, TAM_INICIAL + TAM_INTEIRO ) ;
+        if( ( pBuffer = ( void *)realloc( pBuffer, TAM_INICIAL + TAM_INTEIRO ) == NULL ) ){
+            printf("Erro ao alocar memória\n");
+            exit(EXIT_FAILURE);
+        }
         int *pEscolha = ( int* )( pBuffer + TAM_INICIAL );
         
         MostraMenu(pEscolha);
@@ -50,32 +57,47 @@ void main(int){
         switch (*pEscolha)
         {
             case 1:
-                pBuffer = ( void *)realloc( pBuffer, TAM_INICIAL );
+                //Realocando buffer
+                if( ( pBuffer = ( void *)realloc( pBuffer, TAM_INICIAL ) ) == NULL ){
+                    printf("Erro ao alocar memoria\n");
+                    exit(EXIT_FAILURE);
+                }
                 AdicionarPessoa();
-                pBuffer = ( void *)realloc( pBuffer, TAM_INICIAL );
             break;
             case 2:
-                pBuffer = ( void *)realloc( pBuffer, TAM_INICIAL );
+                //Realocando buffer
+                if( ( pBuffer = ( void *)realloc( pBuffer, TAM_INICIAL ) ) == NULL ){
+                    printf("Erro ao alocar memoria\n");
+                    exit(EXIT_FAILURE);
+                }
                 RemoverPessoa(pFirst,pLast);
-                pBuffer = ( void *)realloc( pBuffer, TAM_INICIAL );
             break;
             case 3:   
-                pBuffer = ( void *)realloc( pBuffer, TAM_INICIAL );
+                //Realocando buffer
+                if( ( pBuffer = ( void *)realloc( pBuffer, TAM_INICIAL ) ) == NULL ){
+                    printf("Erro ao alocar memoria\n");
+                    exit(EXIT_FAILURE);
+                }
                 BuscarPessoa();
-                pBuffer = ( void *)realloc( pBuffer, TAM_INICIAL );
             break;
             case 4:
-                pBuffer = ( void *)realloc( pBuffer, TAM_INICIAL );
+                //Realocando buffer
+                if( ( pBuffer = ( void *)realloc( pBuffer, TAM_INICIAL ) ) == NULL ){
+                    printf("Erro ao alocar memoria\n");
+                    exit(EXIT_FAILURE);
+                }
                 ListarTodos(pFirst, pLast);
-                pBuffer = ( void *)realloc( pBuffer, TAM_INICIAL );
             break;
             case 5:
-                pBuffer = ( void *)realloc( pBuffer, TAM_INICIAL );
+                //Realocando buffer
+                if( ( pBuffer = ( void *)realloc( pBuffer, TAM_INICIAL ) ) == NULL ){
+                    printf("Erro ao alocar memoria\n");
+                    exit(EXIT_FAILURE);
+                }
                 Sair();
             return;
             default:
-                pBuffer = ( void *)realloc( pBuffer, TAM_INICIAL );
-                printf("Opção inválida!");
+                printf("Opção inválida!\n");
             break;
         }
     }
@@ -102,7 +124,10 @@ void MostraMenu(int *pEscolha){
 void AdicionarPessoa() {
     
     // Alocando memoria para armazenar o nome, email e idade temporáriamente;
-    pBuffer = ( void * )realloc( pBuffer, TAM_INICIAL + TAM_PONTEIRO + TAM_STRING + TAM_STRING + TAM_INTEIRO );
+    if( ( pBuffer = ( void * )realloc( pBuffer, TAM_INICIAL + TAM_PONTEIRO + TAM_STRING + TAM_STRING + TAM_INTEIRO ) ) == NULL ){
+        printf("Erro ao alocar memória\n");
+        exit(EXIT_FAILURE);
+    }
     
     // Lendo o nome
     char *pNomeTemp = ( char * )( pBuffer + TAM_INICIAL + TAM_PONTEIRO );
@@ -112,12 +137,12 @@ void AdicionarPessoa() {
 
     // Lendo o email
     char *pEmailTemp = ( char * )( pBuffer + TAM_INICIAL + TAM_PONTEIRO + TAM_STRING );
-    printf( "\nDigite o email: " );
+    printf( "Digite o email: " );
     fgets( pEmailTemp, 50, stdin );
     pEmailTemp[ strcspn( pEmailTemp, "\n" ) ] = '\0';
 
     int *pIdadeTemp = ( int * )( pBuffer + TAM_INICIAL + TAM_PONTEIRO + TAM_STRING + TAM_STRING );
-    printf( "\nDigite a idade: " );
+    printf( "Digite a idade: " );
     scanf( "%d", pIdadeTemp );
     getchar(); // Tira o ultimo \n
 
@@ -130,7 +155,12 @@ void AdicionarPessoa() {
     void **pNovoNodo = (void**)(pBuffer + TAM_INICIAL);
     *pNovoNodo = CriaNodo( pNomeTemp, pEmailTemp, pIdadeTemp );
 
-    pBuffer = (void *)realloc(pBuffer, TAM_INICIAL + 3 * TAM_PONTEIRO);
+    //Realocando buffer
+    if( ( pBuffer = (void *)realloc(pBuffer, TAM_INICIAL + 3 * TAM_PONTEIRO) ) == NULL ) {
+        printf("Erro ao alocar memória\n");
+        exit(EXIT_FAILURE);
+    };
+
     pNovoNodo = (void **)(pBuffer + TAM_INICIAL);
     void **pCurrent = (void **)(pBuffer + TAM_INICIAL + TAM_PONTEIRO);
     void **pPrev = (void **)(pBuffer + TAM_INICIAL + 2 * TAM_PONTEIRO);
@@ -142,11 +172,14 @@ void AdicionarPessoa() {
     void **pLast = ( void ** )( pBuffer + TAM_PONTEIRO );
 
     Push( pFirst, pLast, *pNovoNodo, *pCurrent, *pPrev );
-
 }
 
 void *CriaNodo( char *pNome, char *pEmail, int *pIdade ){
     void *pNovoNodo = ( void * )calloc( 1,2*TAM_STRING + TAM_INTEIRO + 2*TAM_PONTEIRO );
+    if(pNovoNodo == NULL){
+        printf("Erro ao alocar memória\n");
+        exit(EXIT_FAILURE);
+    }
 
     strcpy( ( char* )( pNovoNodo NOME_NODO ),pNome );
 
@@ -217,7 +250,12 @@ void *Pop( void **pFirst, void **pLast, void *pTemp ) {
 
 
 void RemoverPessoa() {
-    pBuffer = ( void * )realloc( pBuffer, TAM_INICIAL + 6 * TAM_PONTEIRO + TAM_STRING + TAM_INTEIRO);
+
+    if( ( pBuffer = ( void * )realloc( pBuffer, TAM_INICIAL + 6 * TAM_PONTEIRO + TAM_STRING + TAM_INTEIRO) ) == NULL ){
+        printf("Erro ao alocar memória\n");
+        exit(EXIT_FAILURE);
+    }
+
     void **pFirst = ( void** )( char* )( pBuffer);
     void **pLast = ( void** )( char* )( pBuffer + TAM_PONTEIRO );
     void **auxHeap = ( void** )( char* )( pBuffer + TAM_INICIAL );
@@ -277,7 +315,10 @@ void RemoverPessoa() {
 }
 
 void BuscarPessoa(){
-    pBuffer = ( void * )realloc( pBuffer, TAM_INICIAL + 6 * TAM_PONTEIRO + TAM_STRING + TAM_INTEIRO);
+    if( ( pBuffer = ( void * )realloc( pBuffer, TAM_INICIAL + 6 * TAM_PONTEIRO + TAM_STRING + TAM_INTEIRO) ) == NULL ) {
+        printf("Erro ao alocar memória\n");
+        exit(EXIT_FAILURE);
+    }
     void **pFirst = ( void** )( char* )( pBuffer);
     void **pLast = ( void** )( char* )( pBuffer + TAM_PONTEIRO );
     void **auxHeap = ( void** )( char* )( pBuffer + TAM_INICIAL );
@@ -335,7 +376,10 @@ void BuscarPessoa(){
 }
 
 void ListarTodos() {
-    pBuffer = ( void * )realloc( pBuffer, TAM_INICIAL + 6 * TAM_PONTEIRO );
+    if ( ( pBuffer = ( void * )realloc( pBuffer, TAM_INICIAL + 6 * TAM_PONTEIRO ) ) == NULL ){
+        printf("Erro ao alocar memória\n");
+        exit(EXIT_FAILURE);
+    }
     void **pFirst = ( void** )( char* )( pBuffer);
     void **pLast = ( void** )( char* )( pBuffer + TAM_PONTEIRO );
     void **auxHeap = ( void** )( char* )( pBuffer + TAM_INICIAL );
@@ -382,7 +426,10 @@ void ListarTodos() {
 
 
 void Sair(){
-    pBuffer =  realloc(pBuffer, TAM_INICIAL + 3* TAM_PONTEIRO);
+    if( ( pBuffer =  realloc(pBuffer, TAM_INICIAL + 3* TAM_PONTEIRO) ) == NULL ){
+        printf("Erro ao alocar memória\n");
+        exit(EXIT_FAILURE);
+    }
     void **pFirst = ( void** )( char* )( pBuffer);
     void **pLast = ( void** )( char* )( pBuffer + TAM_PONTEIRO );
     void **pTemp = (void ** )( char* )( pBuffer + 2* TAM_PONTEIRO);
