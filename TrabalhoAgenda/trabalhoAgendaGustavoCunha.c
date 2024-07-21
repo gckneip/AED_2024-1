@@ -72,7 +72,6 @@ void main(int){
             case 5:
                 pBuffer = ( void *)realloc( pBuffer, TAM_INICIAL );
                 Sair();
-                pBuffer = ( void *)realloc( pBuffer, TAM_INICIAL );
             return;
             default:
                 pBuffer = ( void *)realloc( pBuffer, TAM_INICIAL );
@@ -102,53 +101,47 @@ void MostraMenu(int *pEscolha){
 
 void AdicionarPessoa() {
     
-    // Alocando memoria para armazenar o nome temporáriamente;
-    pBuffer = ( void * )realloc( pBuffer, TAM_INICIAL + TAM_STRING );
-    char *pNomeTemp = ( char * )( pBuffer + TAM_INICIAL );
-
+    // Alocando memoria para armazenar o nome, email e idade temporáriamente;
+    pBuffer = ( void * )realloc( pBuffer, TAM_INICIAL + TAM_PONTEIRO + TAM_STRING + TAM_STRING + TAM_INTEIRO );
+    
     // Lendo o nome
+    char *pNomeTemp = ( char * )( pBuffer + TAM_INICIAL + TAM_PONTEIRO );
     printf( "\nDigite o nome: " );
     fgets( pNomeTemp, 50, stdin );
     pNomeTemp[ strcspn( pNomeTemp, "\n" ) ] = '\0';
 
-    // Alocando memoria para armazenar o email temporáriamente;
-    pBuffer = ( void * )realloc( pBuffer, TAM_INICIAL + TAM_STRING + TAM_STRING );
-    char *pEmailTemp = ( char * )( pBuffer + TAM_INICIAL + TAM_STRING );
-
     // Lendo o email
+    char *pEmailTemp = ( char * )( pBuffer + TAM_INICIAL + TAM_PONTEIRO + TAM_STRING );
     printf( "\nDigite o email: " );
     fgets( pEmailTemp, 50, stdin );
     pEmailTemp[ strcspn( pEmailTemp, "\n" ) ] = '\0';
 
-    // Alocando memoria para armazenar a idade temporariamente;
-    pBuffer = ( void * )realloc( pBuffer, TAM_INICIAL + TAM_STRING + TAM_STRING + TAM_INTEIRO );
-    int *pIdadeTemp = ( int * )( pBuffer + TAM_INICIAL + TAM_STRING + TAM_STRING );
-
+    int *pIdadeTemp = ( int * )( pBuffer + TAM_INICIAL + TAM_PONTEIRO + TAM_STRING + TAM_STRING );
     printf( "\nDigite a idade: " );
     scanf( "%d", pIdadeTemp );
     getchar(); // Tira o ultimo \n
 
-            printf( "############# ADICIONADO ############\n");
-            printf( "Nome: %s\n", pNomeTemp );
-            printf( "Email: %s\n", pEmailTemp );
-            printf( "Idade: %d\n", *pIdadeTemp );
-            printf( "##################################\n");
+    printf( "############# ADICIONADO ############\n");
+    printf( "Nome: %s\n", pNomeTemp );
+    printf( "Email: %s\n", pEmailTemp );
+    printf( "Idade: %d\n", *pIdadeTemp );
+    printf( "##################################\n");
 
+    void **pNovoNodo = (void**)(pBuffer + TAM_INICIAL);
+    *pNovoNodo = CriaNodo( pNomeTemp, pEmailTemp, pIdadeTemp );
 
-    pBuffer = ( void * )realloc( pBuffer, TAM_INICIAL + TAM_STRING + TAM_STRING + TAM_INTEIRO +
-                                        TAM_PONTEIRO + TAM_PONTEIRO + TAM_PONTEIRO );
+    pBuffer = (void *)realloc(pBuffer, TAM_INICIAL + 3 * TAM_PONTEIRO);
+    pNovoNodo = (void **)(pBuffer + TAM_INICIAL);
+    void **pCurrent = (void **)(pBuffer + TAM_INICIAL + TAM_PONTEIRO);
+    void **pPrev = (void **)(pBuffer + TAM_INICIAL + 2 * TAM_PONTEIRO);
 
-    void **pCurrent = ( void ** )( pBuffer + TAM_INICIAL );
-    void **pPrev = ( void ** )( pBuffer + TAM_INICIAL + TAM_PONTEIRO );
-
-    void *pNovoNodo = CriaNodo( pNomeTemp, pEmailTemp, pIdadeTemp );
     *pCurrent = NULL;
     *pPrev = NULL;
 
     void **pFirst = ( void ** )( pBuffer );
     void **pLast = ( void ** )( pBuffer + TAM_PONTEIRO );
 
-    Push( pFirst, pLast, pNovoNodo, *pCurrent, *pPrev );
+    Push( pFirst, pLast, *pNovoNodo, *pCurrent, *pPrev );
 
 }
 
@@ -179,30 +172,27 @@ void Push( void **pFirst, void **pLast, void *pNovoNodo,void *pCurrent, void *pP
     if(*pFirst == NULL){
         *pFirst = pNovoNodo;
         *pLast = pNovoNodo;
-        *( void** )( char* )( pNovoNodo PROX_NODO ) = NULL;
-        *( void** )( char* )( pNovoNodo ANT_NODO ) =  NULL; 
+        *( void** )( ( char* )pNovoNodo PROX_NODO ) = NULL;
+        *( void** )( ( char* )pNovoNodo ANT_NODO ) =  NULL; 
         return;
     }
 
     if ( pPrev == NULL ) {
-        *( void ** )( char* )( pNovoNodo PROX_NODO ) = *pFirst;
-        *( void ** )( char* )( pFirst ANT_NODO ) = pNovoNodo;
+        *( void ** )( ( char* )pNovoNodo PROX_NODO ) = *pFirst;
+        *( void ** )( ( char* )pCurrent ANT_NODO ) = pNovoNodo;
         *pFirst = pNovoNodo;
-        *( void** )( char* )( pNovoNodo ANT_NODO ) =  NULL; 
-        return;
+        *( void** )( ( char* )pNovoNodo ANT_NODO ) =  NULL; 
     } else if (pCurrent != NULL) {
-        *( void ** )( char* )( pPrev PROX_NODO ) = pNovoNodo; //Proximo do anterior do atual vira o novo
-        *( void ** )( char* )( pNovoNodo ANT_NODO ) = pPrev; // Anterior do novo vira o anterior do atual
-        *( void ** )( char* )( pCurrent ANT_NODO ) = pNovoNodo; // Anterior do atual vira o novo
-        *( void ** )( char* )( pNovoNodo + PROX_NODO ) = pCurrent;
+        *( void ** )( ( char* )pPrev PROX_NODO ) = pNovoNodo; //Proximo do anterior do atual vira o novo
+        *( void ** )( ( char* )pNovoNodo ANT_NODO ) = pPrev; // Anterior do novo vira o anterior do atual
+        *( void ** )( ( char* )pNovoNodo PROX_NODO ) = pCurrent;
+        *( void ** )( ( char* )pCurrent ANT_NODO ) = pNovoNodo; // Anterior do atual vira o novo
     } else {
-        *( void ** )( char* )( pPrev PROX_NODO ) = pNovoNodo; //Proximo do anterior do atual vira o novo
-        *( void ** )( char* )( pNovoNodo ANT_NODO ) = pPrev; // Anterior do novo vira o anterior do atual
+        *( void ** )( ( char* )pPrev PROX_NODO ) = pNovoNodo; //Proximo do anterior do atual vira o novo
+        *( void ** )( ( char* )pNovoNodo ANT_NODO ) = pPrev; // Anterior do novo vira o anterior do atual
         *pLast = pNovoNodo;
-        *( void** )( char* )( pNovoNodo PROX_NODO ) = NULL;
-        *( void ** )( char* )( pNovoNodo + PROX_NODO ) = pCurrent;
+        *( void** )( ( char* )pNovoNodo PROX_NODO ) = NULL;
     }
-
 }
 
 
