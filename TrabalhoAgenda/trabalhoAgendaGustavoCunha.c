@@ -2,6 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+
+/*
+################################ FUNÇÕES ######################################
+*/
 void AdicionarPessoa();
 void RemoverPessoa();
 void BuscarPessoa();
@@ -15,6 +19,10 @@ void *CriaNodo(char *pNome, char *pEmail, int *pIdade);
 void Push( void **pFirst, void **pLast, void *pNovoNodo,void *pCurrent, void *pPrev );
 void *Pop( void **pFirst, void **pLast, void *pTemp );
 
+
+/*
+################################ DEFINES ######################################
+*/
 //Defines de aritmetica no buffer
 #define TAM_PONTEIRO (sizeof(void**))
 #define TAM_STRING (sizeof(char*)*50)
@@ -28,6 +36,10 @@ void *Pop( void **pFirst, void **pLast, void *pTemp );
 #define PROX_NODO + (2*TAM_STRING + TAM_INTEIRO)
 #define ANT_NODO + (2*TAM_STRING + TAM_INTEIRO + TAM_PONTEIRO)
 
+
+/*
+################################ MAIN ######################################
+*/
 void *pBuffer = NULL;
 
 void main(int){
@@ -46,7 +58,7 @@ void main(int){
     while ( 1 ){
         
         //Criando o escolha para pegar o input do usuário:
-        if( ( pBuffer = ( void *)realloc( pBuffer, TAM_INICIAL + TAM_INTEIRO ) == NULL ) ){
+        if( ( pBuffer = ( void *)realloc( pBuffer, TAM_INICIAL + TAM_INTEIRO ) ) == NULL ){
             printf("Erro ao alocar memória\n");
             exit(EXIT_FAILURE);
         }
@@ -104,23 +116,17 @@ void main(int){
 
 }
 
-void MostraMenu(int *pEscolha){
-        printf("############## MENU ###################\n");
-        printf( "1- Adicionar Pessoa\n" );
-        printf( "2- Remover Pessoa\n" );
-        printf( "3- Buscar Pessoa\n" );
-        printf( "4- Listar todos\n" );
-        printf( "5- Sair\n" );
-        printf("#################################\n");
+/*
+################################ FUNÇÕES PRINCIPAIS ######################################
+*/
 
-
-        // Coloca a escolha do usuário no endereço de memória da escolha
-        scanf( "%d", pEscolha);
-
-        //Pra tirar o /n
-        getchar();
-}
-
+/* ====================================================================================== 
+AdicionarPessoa
+    Recebe as informações do usuário;
+    Aloca espaço no buffer para armazenar essa infos;
+    Aloca espaço e cria um nodo com as informações;
+    Chama a função Push para adicionar o novo contato na agenda em ordem alfabética
+====================================================================================== */
 void AdicionarPessoa() {
     
     // Alocando memoria para armazenar o nome, email e idade temporáriamente;
@@ -174,81 +180,14 @@ void AdicionarPessoa() {
     Push( pFirst, pLast, *pNovoNodo, *pCurrent, *pPrev );
 }
 
-void *CriaNodo( char *pNome, char *pEmail, int *pIdade ){
-    void *pNovoNodo = ( void * )calloc( 1,2*TAM_STRING + TAM_INTEIRO + 2*TAM_PONTEIRO );
-    if(pNovoNodo == NULL){
-        printf("Erro ao alocar memória\n");
-        exit(EXIT_FAILURE);
-    }
-
-    strcpy( ( char* )( pNovoNodo NOME_NODO ),pNome );
-
-    strcpy( ( char* )( pNovoNodo EMAIL_NODO ),pEmail );
-
-    *( int* )( char* )( pNovoNodo IDADE_NODO ) = *pIdade;
-
-    *( void** )( char* )( pNovoNodo PROX_NODO ) = NULL;
-    *( void** )( char* )( pNovoNodo ANT_NODO ) =  NULL; 
-
-    return pNovoNodo;
-}
-
-void Push( void **pFirst, void **pLast, void *pNovoNodo,void *pCurrent, void *pPrev ) {
-    pCurrent = *pFirst;
-    pPrev = NULL;
-
-    while ( pCurrent != NULL && strcmp( ( char * )pCurrent, ( char * )pNovoNodo ) < 0 ) {
-        pPrev = pCurrent;
-        pCurrent = *( void **)( ( char *)pPrev PROX_NODO) ;
-    }
-
-    if(*pFirst == NULL){
-        *pFirst = pNovoNodo;
-        *pLast = pNovoNodo;
-        *( void** )( ( char* )pNovoNodo PROX_NODO ) = NULL;
-        *( void** )( ( char* )pNovoNodo ANT_NODO ) =  NULL; 
-        return;
-    }
-
-    if ( pPrev == NULL ) {
-        *( void ** )( ( char* )pNovoNodo PROX_NODO ) = *pFirst;
-        *( void ** )( ( char* )pCurrent ANT_NODO ) = pNovoNodo;
-        *pFirst = pNovoNodo;
-        *( void** )( ( char* )pNovoNodo ANT_NODO ) =  NULL; 
-    } else if (pCurrent != NULL) {
-        *( void ** )( ( char* )pPrev PROX_NODO ) = pNovoNodo; //Proximo do anterior do atual vira o novo
-        *( void ** )( ( char* )pNovoNodo ANT_NODO ) = pPrev; // Anterior do novo vira o anterior do atual
-        *( void ** )( ( char* )pNovoNodo PROX_NODO ) = pCurrent;
-        *( void ** )( ( char* )pCurrent ANT_NODO ) = pNovoNodo; // Anterior do atual vira o novo
-    } else {
-        *( void ** )( ( char* )pPrev PROX_NODO ) = pNovoNodo; //Proximo do anterior do atual vira o novo
-        *( void ** )( ( char* )pNovoNodo ANT_NODO ) = pPrev; // Anterior do novo vira o anterior do atual
-        *pLast = pNovoNodo;
-        *( void** )( ( char* )pNovoNodo PROX_NODO ) = NULL;
-    }
-}
-
-
-void *Pop( void **pFirst, void **pLast, void *pTemp ) {
-    if ( *pFirst == NULL ) {
-        printf("Nenhuma pessoa para remover.\n");
-        return NULL;
-    }
-
-    pTemp = *pFirst;
-    *pFirst = *( void ** )( char* )( pTemp + PROX_NODO);
-    
-    if (*pFirst == NULL) {
-        *pLast = NULL;
-    }
-
-    *( void** )( char* )( pTemp PROX_NODO) = NULL;
-    *( void** )( char* ) (pTemp ANT_NODO ) = NULL;
-
-    return pTemp;
-}
-
-
+/* ====================================================================================== 
+RemoverPessoa
+    Remove uma pessoa da agenda;
+    Itera pela agenda como uma heap (apenas tem acesso ao Primeiro), dando Pop
+    na heap Principal e Push para a auxiliar, até encontrar o contato desejado;
+    Quando encontrado, o contato e excluido (free);
+    Passa os contatos da auxiliar de volta para a principal;
+====================================================================================== */
 void RemoverPessoa() {
 
     if( ( pBuffer = ( void * )realloc( pBuffer, TAM_INICIAL + 6 * TAM_PONTEIRO + TAM_STRING + TAM_INTEIRO) ) == NULL ){
@@ -268,6 +207,7 @@ void RemoverPessoa() {
     int *achou = ( int * )( pBuffer + TAM_INICIAL + 6 * TAM_PONTEIRO + TAM_STRING );
 
     *achou = 0;
+
     // Lendo o nome
     printf( "\nDigite o nome: " );
     fgets( pNomeTemp, 50, stdin );
@@ -314,6 +254,13 @@ void RemoverPessoa() {
     }
 }
 
+/* ====================================================================================== 
+BuscarPessoa
+    Busca um contato na agenda e o printa na tela;
+    Itera pela agenda como uma heap (apenas tem acesso ao Primeiro), dando Pop
+    na heap Principal e Push para a auxiliar, até encontrar o contato desejado;
+    Passa os contatos da auxiliar de volta para a principal;
+====================================================================================== */
 void BuscarPessoa(){
     if( ( pBuffer = ( void * )realloc( pBuffer, TAM_INICIAL + 6 * TAM_PONTEIRO + TAM_STRING + TAM_INTEIRO) ) == NULL ) {
         printf("Erro ao alocar memória\n");
@@ -375,6 +322,13 @@ void BuscarPessoa(){
     }
 }
 
+/* ====================================================================================== 
+ListarTodos
+    Lista todos os contatos na agenda;
+    Itera pela agenda como uma heap (apenas tem acesso ao Primeiro), dando Pop
+    na heap Principal e Push para a auxiliar, printando os contatos na tela durante o processo;
+    Passa os contatos da auxiliar de volta para a principal;
+====================================================================================== */
 void ListarTodos() {
     if ( ( pBuffer = ( void * )realloc( pBuffer, TAM_INICIAL + 6 * TAM_PONTEIRO ) ) == NULL ){
         printf("Erro ao alocar memória\n");
@@ -424,7 +378,10 @@ void ListarTodos() {
     }
 }
 
-
+/* ====================================================================================== 
+Sair
+    Desaloca o buffer e toda a agenda;
+====================================================================================== */
 void Sair(){
     if( ( pBuffer =  realloc(pBuffer, TAM_INICIAL + 3* TAM_PONTEIRO) ) == NULL ){
         printf("Erro ao alocar memória\n");
@@ -445,4 +402,127 @@ void Sair(){
     }
     free(pBuffer);
     printf("############## SAINDO ###################\n");
+}
+
+
+
+/*
+################################ FUNÇÕES AUXILIARES ######################################
+*/
+
+/* ====================================================================================== 
+MostraMenu
+    Mostra o menu para o usuário e recebe o inteiro (escolha) 
+    que decidirá qual função irá rodar;
+====================================================================================== */
+void MostraMenu(int *pEscolha){
+        printf("############## MENU ###################\n");
+        printf( "1- Adicionar Pessoa\n" );
+        printf( "2- Remover Pessoa\n" );
+        printf( "3- Buscar Pessoa\n" );
+        printf( "4- Listar todos\n" );
+        printf( "5- Sair\n" );
+        printf("#################################\n");
+
+
+        // Coloca a escolha do usuário no endereço de memória da escolha
+        scanf( "%d", pEscolha);
+
+        //Pra tirar o /n
+        getchar();
+}
+
+/* ====================================================================================== 
+CriaNodo
+    Aloca espaço na memória para armazenar as informações de cada contato 
+    (nome,email,idade);
+    Retorna um ponteiro para o nodo alocado;
+    Utilizada na função AdicionarPessoa;
+====================================================================================== */
+void *CriaNodo( char *pNome, char *pEmail, int *pIdade ){
+    void *pNovoNodo = ( void * )calloc( 1,2*TAM_STRING + TAM_INTEIRO + 2*TAM_PONTEIRO );
+    if(pNovoNodo == NULL){
+        printf("Erro ao alocar memória\n");
+        exit(EXIT_FAILURE);
+    }
+
+    strcpy( ( char* )( pNovoNodo NOME_NODO ),pNome );
+
+    strcpy( ( char* )( pNovoNodo EMAIL_NODO ),pEmail );
+
+    *( int* )( char* )( pNovoNodo IDADE_NODO ) = *pIdade;
+
+    *( void** )( char* )( pNovoNodo PROX_NODO ) = NULL;
+    *( void** )( char* )( pNovoNodo ANT_NODO ) =  NULL; 
+
+    return pNovoNodo;
+}
+
+
+/* ====================================================================================== 
+Push
+    Recebe um first, last e novoNodo aleatórios;
+    Pode ser utilizado pela heap princial e pela auxiliar, a idéia era fazer uma função bem dinâmica;
+    Adiciona um nodo na heap em ordem alfabética;
+    Utilizada no AdicionarPessoa, no RemoverPessoa, no ListarPessoa e no BuscarPessoa;
+====================================================================================== */
+void Push( void **pFirst, void **pLast, void *pNovoNodo,void *pCurrent, void *pPrev ) {
+    pCurrent = *pFirst;
+    pPrev = NULL;
+
+    while ( pCurrent != NULL && strcmp( ( char * )pCurrent, ( char * )pNovoNodo ) < 0 ) {
+        pPrev = pCurrent;
+        pCurrent = *( void **)( ( char *)pPrev PROX_NODO) ;
+    }
+
+    if(*pFirst == NULL){
+        *pFirst = pNovoNodo;
+        *pLast = pNovoNodo;
+        *( void** )( ( char* )pNovoNodo PROX_NODO ) = NULL;
+        *( void** )( ( char* )pNovoNodo ANT_NODO ) =  NULL; 
+        return;
+    }
+
+    if ( pPrev == NULL ) {
+        *( void ** )( ( char* )pNovoNodo PROX_NODO ) = *pFirst;
+        *( void ** )( ( char* )pCurrent ANT_NODO ) = pNovoNodo;
+        *pFirst = pNovoNodo;
+        *( void** )( ( char* )pNovoNodo ANT_NODO ) =  NULL; 
+    } else if (pCurrent != NULL) {
+        *( void ** )( ( char* )pPrev PROX_NODO ) = pNovoNodo; //Proximo do anterior do atual vira o novo
+        *( void ** )( ( char* )pNovoNodo ANT_NODO ) = pPrev; // Anterior do novo vira o anterior do atual
+        *( void ** )( ( char* )pNovoNodo PROX_NODO ) = pCurrent;
+        *( void ** )( ( char* )pCurrent ANT_NODO ) = pNovoNodo; // Anterior do atual vira o novo
+    } else {
+        *( void ** )( ( char* )pPrev PROX_NODO ) = pNovoNodo; //Proximo do anterior do atual vira o novo
+        *( void ** )( ( char* )pNovoNodo ANT_NODO ) = pPrev; // Anterior do novo vira o anterior do atual
+        *pLast = pNovoNodo;
+        *( void** )( ( char* )pNovoNodo PROX_NODO ) = NULL;
+    }
+}
+
+/* ====================================================================================== 
+Pop
+    Recebe um first, last e pTemp aleatórios;
+    Pode ser utilizado pela heap princial e pela auxiliar, a idéia era fazer uma função bem dinâmica;
+    Remove o primeiro nodo da heap;
+    Utilizada no RemoverPessoa, no ListarPessoa e no BuscarPessoa;
+====================================================================================== */
+void *Pop( void **pFirst, void **pLast, void *pTemp ) {
+    if ( *pFirst == NULL ) {
+        printf("Nenhuma pessoa para remover.\n");
+        return NULL;
+    }
+
+    pTemp = *pFirst;
+    *pFirst = *( void ** )( char* )( pTemp + PROX_NODO);
+    
+    if (*pFirst == NULL) {
+        *pLast = NULL;
+    }
+
+    *( void** )( char* )( pTemp PROX_NODO) = NULL;
+    *( void** )( char* ) (pTemp ANT_NODO ) = NULL;
+
+    return pTemp;
 }
