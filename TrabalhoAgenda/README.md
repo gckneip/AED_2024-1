@@ -243,5 +243,5 @@ Possivel problemas com varios contatos (10+), não foi testado devido ao prazo d
 Uso de memória pode ser melhorado, alguns alocamentos de memórias são feitos antes do necessário;
 Tanto email quanto nome sempre ocuparão 50 bytes, possivel implementar alocação dinâmica de strings;
 
-## [Vídeo explicativo](https://youtu.be/eDySrfGXwfk)
+## [Vídeo explicativo](https://www.youtube.com/watch?v=cxz5oMS8SBk)
 
