@@ -1,22 +1,17 @@
-# Trabalho Prático 1
-## Gustavo Cunha Kneip - AED_2024-1 - 23/06/2024
+# Trabalho Prático 3
+## Gustavo Cunha Kneip - AED_2024-1 - 11/08/2024
 ## Problema:
-Criar um programa que simula o processo de venda de uma banca de limonada. Ele deve funcionar da seguinte forma:
- - O programa receberá um vetor de inteiros, representando o pagamento de cada cliente como um dos valores do vetor;
- - O cliente pode pagar em notas de $5, $10, $20;
- - O programa deve verificar se o dono da banca de limonada possui notas suficiente para dar o troco aos seus clientes;
+Criar um programa que dado uma árvore binária qualquer, ele retorne a menor sub-árvore contendo todos os nodos mais profundos;
 ## Soluções
 - [Solução realizada em aula](./CodigoEmAula/Tarefa2-Leetcode860-GustavoCunhaKneip.c);
 - [Solução finalizada em casa](./CodigoFinalizado/Tarefa2-Leetcode860-GustavoCunhaKneip-Finalizado.c);
 ## Testes:
-Foram realizados testes com os seguintes vetores (utlizando a IDE do Leetcode):
-- [5,5,5,10,20] - Esperado: true; Resultado: true;
-- [5,5,10,10,20] - Esperado: false; Resultado: false;
-- [5,5,5,10,20,10,20] - Esperado: false; Resultado: false;
+Foram realizados testes com as seguintes arvores:
+- ![image](https://github.com/user-attachments/assets/580e4cd9-ddfd-46fe-9272-1e86cf431359)
+- ![image](https://github.com/user-attachments/assets/f4dafbad-0990-4ee5-8ed9-b8469ffcaefb)
+- ![image](https://github.com/user-attachments/assets/3c25fc1a-540e-4214-bcf3-47a2b17cc453)
 ## O que funcionou:
-O código faz tudo o que foi pedido pelo problema, rodou tranquilamente em todos os testes do Leetcode, rodados depois de mandar o programa usando o **SUBMIT**;
+Em aula, consegui analizar as arvores e pegar a maior profundidade delas, alem dos caminhos para os nodos mais profundos; Em casa, terminei o codigo que procurava o nodo em comum que os caminhos tinham e retornava a sub-arvore a partir dele;
 ## O que não funcionou:
-Como comentado anteriormente, o codigo faz o que foi pedido. Uma coisa interessante de se comentar é que se trocar a ordem dos `if's` das linhas **46** e **49** do arquivo 
-[`Tarefa2-Leetcode860-GustavoCunhaKneip-Finalizado.c`](./CodigoFinalizado/Tarefa2-Leetcode860-GustavoCunhaKneip-Finalizado.c) o programa não roda, pois gastamos mais notas de 5
-do que o esperado. Porém essa ainda seria uma solução válida, pois o dono da banca pode escolher das 3 notas de $5 como troco para $20. Acho que isso não foi pensado por quem desenvolveu o problema.
+Em aula, como a árvore não era uma BST, meu perdi na hora de fazer o código para procurar o nodo específico na árvore, além disso não terminei a parte que pegava o valor em comum entre os caminhos. Creio que ambas essas coisa sejam devido ao tempo.
 ## [Vídeo explicativo](https://youtu.be/eDySrfGXwfk)
