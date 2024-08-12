@@ -3,8 +3,8 @@
 ## Problema:
 Criar um programa que dado uma árvore binária qualquer, ele retorne a menor sub-árvore contendo todos os nodos mais profundos;
 ## Soluções
-- [Solução realizada em aula](./CodigoEmAula/Tarefa2-Leetcode860-GustavoCunhaKneip.c);
-- [Solução finalizada em casa](./CodigoFinalizado/Tarefa2-Leetcode860-GustavoCunhaKneip-Finalizado.c);
+- [Solução realizada em aula](./CodigoEmAula/Tarefa4-Leetcode865.c);
+- [Solução finalizada em casa](./CodigoFinalizado/Tarefa4-Leetcode865-finalizado.c);
 ## Testes:
 Foram realizados testes com as seguintes arvores:
 - ![image](https://github.com/user-attachments/assets/580e4cd9-ddfd-46fe-9272-1e86cf431359)
