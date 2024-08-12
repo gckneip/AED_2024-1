@@ -164,7 +164,6 @@ struct TreeNode* subtreeWithAllDeepest( struct TreeNode* root ) {
     @return: void
 ==================== */
 void runTests() {
-    // Test case 1: Simple tree
     struct TreeNode node3 = { 3, NULL, NULL };
     struct TreeNode node4 = { 4, NULL, NULL };
     struct TreeNode node2 = { 2, &node3, &node4 };
@@ -177,7 +176,6 @@ void runTests() {
         printf( "Test case 1: No subtree found\n" );
     }
 
-    // Test case 2: More complex tree
     struct TreeNode node7 = { 7, NULL, NULL };
     struct TreeNode node6 = { 6, NULL, NULL };
     struct TreeNode node5 = { 5, NULL, NULL };
@@ -193,7 +191,6 @@ void runTests() {
         printf( "Test case 2: No subtree found\n" );
     }
 
-    // Test case 3: Empty tree
     result = subtreeWithAllDeepest( NULL );
     if ( result != NULL ) {
         printf( "Test case 3: The value of the subtree with all deepest nodes is %d\n", result->val );
