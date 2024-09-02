@@ -33,5 +33,5 @@ Indique qual é o maximo de lucro que é possível obter;
 ## O que não funcionou:
 - **Durante a aula**: Durante a aula, sinto que identifiquei a solução do problema rapidamente, porém, tive dificuldade de implementar as funções de sort de cabeça. Devido o cansaço do fim do semestre, também desisti cedo e decidi terminar em casa;
 - **Em casa**: Consegui implementar as funções no sábado, com a cabeça mais fria, porém não consegui passar por todos os teste mesmo assim. NO domingo, decidi pedir ajuda do copilot, para não entregar um código que não funciona. Além disso, meu Valgrind ainda não funciona direito, mesmo com o programa não utilizando nada muito chique em questão de memória (apenas 1 malloc e 1 free);
-## [Vídeo explicativo](https://youtu.be/2ivdoDXYhhU)
+## [Vídeo explicativo](https://youtu.be/0OswvIWyxjc)
 
