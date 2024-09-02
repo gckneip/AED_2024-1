@@ -7,7 +7,7 @@ Criar um programa que ao receber 3 arrays:
   - Workes: Trabalhadores = index, cada valor do trabalhador indica qual trabalho ele pode pegar;
 Indique qual é o maximo de lucro que é possível obter;
 ## Soluções
-- [Solução realizada em aula](./FeitoEmAula.c;
+- [Solução realizada em aula](./FeitoEmAula.c);
 - [Solução finalizada em casa (sozinho)](./FeitoEmCasa-sozinho.c);
 - [Solução finalizada em casa (ajuda do copilot)](./FeitoEmCasa-ajuda.c);
 ## Testes:
